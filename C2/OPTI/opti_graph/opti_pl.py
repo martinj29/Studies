@@ -105,7 +105,7 @@ class PLSimplex():
         while current_mat.can_continue :
             print()
             entering_base = current_mat.matrix.columns[list(current_mat.grad_Z).index(max(current_mat.grad_Z))]
-            quitting_base = self.quitting()
+            quitting_base = self.quitting(entering_base)
             current_mat.switch(entering_base,quitting_base)
             print(f"Variable entrante : {entering_base}")
             print(f"Variable sortante : {quitting_base}")
@@ -119,18 +119,19 @@ class PLSimplex():
 
     def str_stage(self,i):
         return f"Etape {i} : "
-    def quitting(self):
+    def quitting(self,entering):
         # rapports
         if 1 :
-            rapports = {b:np.inf for b in self.mat.base_names}
+            rapports  = {b:np.inf for b in self.mat.base_names}
+            sols      = self.mat.matrix["solutions"]
+            enter_col = self.mat.matrix[entering]
+
             for k in rapports :
+                if enter_col[k] > 0 :
+                    rapports[k] = sols[k]/enter_col[k]
 
 
-
-        buffer = []
-        for k in rapport :
-            if not (k=='Z' or rapport[k]==np.inf or rapport[k]<=0) :
-                buffer.append(k)
-        new = {k: rapport[k] for k in buffer}
-        return sorted(new.items(),key=lambda item:item[1])[0][0]
+        # choix du meilleur
+        if 1 :
+            return sorted(rapports.items(), key=lambda item: item[1])[0][0]
 

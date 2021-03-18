@@ -22,7 +22,7 @@ def test2():
         ei = ["e1","e2","e3","e4"]
         Z  = [0,0,0,0,5,3,0]
         C  = [[1,0,0,0,2,1],
-              [0,1,0,0,0,1],
+              [0,1,0,0,1,1],
               [0,0,1,0,1,0],
               [0,0,0,1,0,1]]
         S  = [8,6,3,5]
@@ -30,7 +30,7 @@ def test2():
     s = PLSimplex(xi,ei,Z,C,S)
     s.launch()
 
-def test1():
+def test3():
     # Initialisations
     if 1 :
         xi = ["x1","x2"]
