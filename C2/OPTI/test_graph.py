@@ -103,7 +103,6 @@ def entrainement_partiel():
         s3 = Sommet("3")
         s4 = Sommet("4")
         s5 = Sommet("5")
-
         a1 = Arete("a1", s1, s3)
         a2 = Arete("a2", s1, s2)
         a3 = Arete("a3", s1, s4)
@@ -114,25 +113,42 @@ def entrainement_partiel():
         a8 = Arete("a8", s4, s5)
         g = Oriented_Graph([s1, s2, s3, s4, s5], [a1, a2, a3, a4, a5, a6, a7, a8])
 
+        lsomm = [Sommet("A"),Sommet("B"),Sommet("C"),Sommet("D"),Sommet("E"),Sommet("F"),Sommet("G")]
+        larr = [Arete("a1", lsomm[0],lsomm[1],weight=12),
+                Arete("a2", lsomm[3],lsomm[0],weight=9),
+                Arete("a3", lsomm[0],lsomm[2],weight=20),
+                Arete("a4", lsomm[3],lsomm[2],weight=8),
+                Arete("a5", lsomm[3],lsomm[5],weight=21),
+                Arete("a6", lsomm[1],lsomm[6],weight=13),
+                Arete("a7", lsomm[6],lsomm[2],weight=2),
+                Arete("a8", lsomm[6],lsomm[5],weight=5),
+                Arete("a9", lsomm[6],lsomm[4],weight=9),
+                Arete("a10", lsomm[5],lsomm[4],weight=3),
+                Arete("a11", lsomm[2],lsomm[5],weight=11)]
+        g2 = Oriented_Graph(lsomm,larr)
+
+
     #Q0
     if 1 :
         g.kx_show()
-
-    #Q1
+    #Q1a
     if 1 :
-        print("Q1 : ")
+        print("Q1a ")
         print(g.incidence_matrix)
-
+    #Q1b
+    if 1 :
+        print("Q1b")
+        print(g.adjacence_matrix)
+    #Q1c
+    if 1 :
+        print("Q1c")
+        print(g.liste_successeurs)
+        #print(g.liste_predecesseurs)
     #Q2
     if 1 :
-        print("Q2")
-        print(g.adjacence_matrix)
-
-    #Q3
-    if 1 :
-        print("Q3")
-        for node in g.X :
-            print
+        print("\nQ2")
+        g2.Moore_Dijkstra(lsomm[0],lsomm[4])
+        pass
 
 
 

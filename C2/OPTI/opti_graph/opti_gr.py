@@ -117,6 +117,12 @@ class Oriented_Graph(object):
         all = set([d[key] for key in d])
         if len(all) == 1: return True
         else            : return False
+    @property
+    def liste_successeurs(self):
+        return {x:self.successeur(x) for x in self._X}
+    @property
+    def liste_predecesseurs(self):
+        return {x: self.predecesseur(x) for x in self._X}
 
     # Networkx
     if 1 :
@@ -130,8 +136,6 @@ class Oriented_Graph(object):
             return G
         def kx_show(self):
             return nx.draw_networkx(self.kx)
-
-
 
     def successeur(self,x):
         # Initialisation
@@ -154,6 +158,27 @@ class Oriented_Graph(object):
                     sucess.append(arete.s2)
 
         return sucess
+    def unoriented_sucesseurs(self,x):
+        # Initialisation
+        if 1 :
+            if isinstance(x,str):
+                for xi in self._X:
+                    if xi.nom == x:
+                        somm = xi
+                        break
+            elif isinstance(x,Sommet):
+                somm = x
+            else :
+                raise ValueError("la valeur renseignée n'est pas un sommet")
+        # Work
+        if 1 :
+            sucess = []
+            for arete in self._A :
+                if arete.s1.nom == somm.nom:
+                    sucess.append(arete.s2)
+                elif arete.s2.nom == somm.nom :
+                    sucess.append(arete.s1)
+        return sucess
     def predecesseur(self,x):
         # Initialisation
         if 1:
@@ -173,8 +198,21 @@ class Oriented_Graph(object):
             for s in self._X:
                 if somm.nom in [a.nom for a in self.successeur(s)]:
                     l.append(s)
-
         return l
+    def unoriented_predecesseur(self,x):
+        # Initialisation
+        if 1:
+            if isinstance(x, str):
+                for xi in self._X:
+                    if xi.nom == x:
+                        somm = xi
+                        break
+            elif isinstance(x, Sommet):
+                somm = x
+            else:
+                raise ValueError("la valeur renseignée n'est pas un sommet")
+
+        return [y for y in self._X if self.get_arete(y.nom,somm.nom,unorient=True) is not None]
     def parcours_sommets(self,func_traitement=lambda s:None):
         visites = []
         def visiter(s,func):
@@ -186,12 +224,84 @@ class Oriented_Graph(object):
 
         for x in self._X:
             visiter(x,func_traitement)
+    def get_sommet(self,nom_sommet):
+        for x in self._X:
+            if x.nom == nom_sommet :
+                return x
+        return
+    def get_arete(self,nom_s1,nom_s2,unorient=False):
+        for a in self._A:
+            if not unorient :
+                if a.s1.nom==nom_s1 and a.s2.nom==nom_s2:
+                    return a
+            else :
+                if (a.s1.nom==nom_s1 and a.s2.nom==nom_s2) or (a.s1.nom==nom_s2 and a.s2.nom==nom_s1):
+                    return a
+        return
 
-    def print_all_sucess(self):
-        st = ""
-        for s in self._X :
-            st += f"gamma({s.nom}) = "+str([so.nom for so in self.successeur(s)])+'\n'
-        return st
+    def Moore_Dijkstra(self,start,end):
+        S  = []
+        S_ = [x.nom for x in self._X]
+        pi = {x.nom:np.inf for x in self._X}
+
+        print(f"Calcul du plus court chemin entre {start} et {end}")
+
+        # Initialisation
+        if 1 :
+            cpt = 1
+            pi[start.nom] = 0
+            S.append(S_.pop(S_.index(start.nom)))
+            succ = self.unoriented_sucesseurs(start)
+            for s in succ :
+                arr = self.get_arete(start.nom,s.nom,unorient=True)
+                pi[s.nom] = arr.weight
+            print("Initialisation : ")
+            print("S  : ",S)
+            print("S_ : ",S_)
+            print("pi :",pi)
+
+        # Algo
+        while len(S_) != 0 :
+            print(f"Iteration {cpt}")
+
+            # sélection du sommet
+            pi_inter_S_ = {x:pi[x] for x in pi if x in S_}
+            s_min       = min(pi_inter_S_, key=pi_inter_S_.get)
+
+            # ajout aux sommets traités
+            S.append(S_.pop(S_.index(s_min)))
+
+            # opérations sur le sommet
+            succ = self.unoriented_sucesseurs(s_min)
+            for s in succ :
+                arr = self.get_arete(s_min,s.nom,unorient=True)
+                pi[s.nom] = min(pi[s_min]+arr.weight,pi[s.nom])
+
+            # affichage
+            print("S  : ", S)
+            print("S_ : ", S_)
+            print("pi :", pi)
+
+            cpt+=1
+        print(f"le chemin min pour aller de {start} à {end} est de {pi[end.nom]}")
+
+        somm    = end.nom
+        chemin = [end.nom]
+        while somm != start.nom :
+            found = False
+            pred = self.unoriented_predecesseur(somm)
+            for s in pred :
+                arr = self.get_arete(somm,s.nom,unorient=True)
+                if pi[s.nom] + arr.weight == pi[somm] :
+                    chemin.append(s.nom)
+                    somm = s.nom
+                    found = True
+                    break
+            if not found : raise ValueError("Cas impossible")
+        print("le chemin : ",list(reversed(chemin)))
+
+
+
 
     def __repr__(self):
         string = "Graph Object\n"
