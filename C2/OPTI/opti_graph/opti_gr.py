@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class Sommet(object):
     def __init__(self,nom):
@@ -7,9 +9,11 @@ class Sommet(object):
     @property
     def nom(self):
         return self._nom
+    def __repr__(self):
+        return str(self._nom)
 
 class Arete(object):
-    def __init__(self,nom,s1,s2,oriented=True):
+    def __init__(self,nom,s1,s2,oriented=True,weight=1):
         """
         arete entre s1 et s2
         :param nom: nom
@@ -17,9 +21,10 @@ class Arete(object):
         :param s2: sommet d'arrivée
         :param oriented: arete orientée
         """
-        self._nom = nom
-        self._s1  = s1
-        self._s2  = s2
+        self._nom   = nom
+        self._s1    = s1
+        self._s2    = s2
+        self.weight = weight
     @property
     def tuple(self):
         return (self._s1,self._s2)
@@ -35,6 +40,9 @@ class Arete(object):
     @property
     def nom(self):
         return self._nom
+
+    def __repr__(self):
+        return str(self._nom)
 
 
 
@@ -109,6 +117,20 @@ class Oriented_Graph(object):
         all = set([d[key] for key in d])
         if len(all) == 1: return True
         else            : return False
+
+    # Networkx
+    if 1 :
+        @property
+        def kx(self):
+            G = nx.DiGraph()
+            for node in self._X :
+                G.add_node(node)
+            for edge in self._A :
+                G.add_edge(edge.s1,edge.s2,weight=edge.weight)
+            return G
+        def kx_show(self):
+            return nx.draw_networkx(self.kx)
+
 
 
     def successeur(self,x):

@@ -26,7 +26,6 @@ def test1():
     g.classes_equivalence
     g.is_connex
     a=1
-
 def test2():
     # Sommets
     if 1:
@@ -48,7 +47,6 @@ def test2():
         print(g.parcours_sommets(func_traitement=lambda s: print(s.nom)))
         print(g.classes_equivalence)
         print(g.is_connex)
-
 def test3():
     # Sommets
     if 1:
@@ -70,8 +68,80 @@ def test3():
         a8 = Arete("a8", s4, s5)
         g = Oriented_Graph([s1, s2, s3, s4,s5], [a1, a2, a3, a4, a5, a6, a7, a8])
         print(g)
+def test4():
+    """
+    test de networkx
+    :return:
+    """
+    # Sommets
+    if 1:
+        s1 = Sommet("1")
+        s2 = Sommet("2")
+        s3 = Sommet("3")
+        s4 = Sommet("4")
+        s5 = Sommet("5")
+
+    # Aretes
+    if 1:
+        a1 = Arete("a1", s1, s3)
+        a2 = Arete("a2", s1, s2)
+        a3 = Arete("a3", s1, s4)
+        a4 = Arete("a4", s3, s2)
+        a5 = Arete("a5", s3, s4)
+        a6 = Arete("a6", s3, s5)
+        a7 = Arete("a7", s4, s2)
+        a8 = Arete("a8", s4, s5)
+        g = Oriented_Graph([s1, s2, s3, s4,s5], [a1, a2, a3, a4, a5, a6, a7, a8])
+        g.kx
+        a=1
+
+def entrainement_partiel():
+    # Init
+    if 1:
+        s1 = Sommet("1")
+        s2 = Sommet("2")
+        s3 = Sommet("3")
+        s4 = Sommet("4")
+        s5 = Sommet("5")
+
+        a1 = Arete("a1", s1, s3)
+        a2 = Arete("a2", s1, s2)
+        a3 = Arete("a3", s1, s4)
+        a4 = Arete("a4", s3, s2)
+        a5 = Arete("a5", s3, s4)
+        a6 = Arete("a6", s3, s5)
+        a7 = Arete("a7", s4, s2)
+        a8 = Arete("a8", s4, s5)
+        g = Oriented_Graph([s1, s2, s3, s4, s5], [a1, a2, a3, a4, a5, a6, a7, a8])
+
+    #Q0
+    if 1 :
+        g.kx_show()
+
+    #Q1
+    if 1 :
+        print("Q1 : ")
+        print(g.incidence_matrix)
+
+    #Q2
+    if 1 :
+        print("Q2")
+        print(g.adjacence_matrix)
+
+    #Q3
+    if 1 :
+        print("Q3")
+        for node in g.X :
+            print
+
+
+
+    return
+
 
 if __name__ == '__main__':
     #test1()
-    test2()
+    #test2()
     #test3()
+    #test4()
+    entrainement_partiel()

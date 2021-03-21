@@ -88,12 +88,11 @@ class PLMatrix():
         if self._header[-1] in self._hbase : self._point[1] = 0
         else                              : self._point[1] = self._S[self._base.index(self._header[-1])]
 
-
-
 class PLSimplex():
     def __init__(self, *args):
         if len(args) != 0 :
-            self.mat = PLMatrix(*args)
+            self.mat       = PLMatrix(*args) # matrice courante (change)
+            self._init_mat = PLMatrix(*args) # martice initiale (immobile)
 
     def launch(self):
         print("######### Début du Simplex #########")
@@ -112,8 +111,58 @@ class PLSimplex():
             print(current_mat)
             print(f"Point : ({current_mat._point[0]},{current_mat._point[1]})")
 
-    def launch_graph(self,xlim=None,ylim=None):
-        pass
+    def launch_graph(self,xlim,ylim,dx=100):
+
+        # Initialisations
+        if 1 :
+            fig  = plt.figure()
+            ax   = fig.add_subplot(111)
+
+            mat          = self._init_mat
+            styles       = ['b-', 'r-', 'g-', 'y-', 'bo', 'ro', 'go', 'yo']
+            xaxis, yaxis = tuple(mat.hbase_names)
+            gZ           = mat.matrix.loc['Z'][[xaxis, yaxis]]
+            constraints  = mat.base_names
+            resized_mat  = mat.inside_mat[[xaxis, yaxis]]
+            solutions    = mat.matrix["solutions"][constraints]
+
+            x_range = np.linspace(0,xlim,dx)
+            y_range = np.linspace(0,ylim,dx)
+
+        # Properties
+        if 1 :
+            ax.set_aspect(aspect="equal")
+            ax.set_xlabel("x1")
+            ax.set_ylabel("x2")
+            ax.set_xlim(-(1/10)*xlim,xlim)
+            ax.set_ylim(-(1/10)*ylim,ylim)
+            ax.spines['left'].set_position('zero')
+            ax.spines['bottom'].set_position('zero')
+
+        # Plot contraintes
+        if 1 :
+            assert len(constraints)<=len(styles), "Ajouter des styles ou boucler"
+
+            for i,constraint in enumerate(constraints) :
+                direction      = (resized_mat.loc[constraint]['x1'],resized_mat.loc[constraint]['x2'],solutions[constraint])
+                str_constraint = f"{direction[0]}x1 + {direction[1]}x2 = {direction[2]}"
+
+                if   direction[0] == 0 : ax.plot(x_range,np.array([direction[2]/direction[1]]*dx),styles[i],label=str_constraint)
+                elif direction[1] == 0 : ax.plot(np.array([direction[2]/direction[0]]*dx),y_range,styles[i],label=str_constraint)
+                else                   : ax.plot(x_range,(direction[2]-direction[0]*x_range)/direction[1],styles[i],label=str_constraint)
+
+        # Plot Z
+        if 1 :
+            ax.quiver(0, 0, *gZ,label="grad(Z)")
+            ax.plot(x_range,-gZ[0]*x_range/gZ[1],'k--',label=f"Z=0")
+            ax.plot(x_range,(gZ[0]*gZ[1]-gZ[0]*x_range)/gZ[1],'k--',label=f"Z={gZ[0]*gZ[1]}")
+
+        # Courbe optimale
+        if 1 :
+            pass
+
+        fig.legend()
+        return fig
 
 
 
