@@ -1,0 +1,31 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+
+# creation d'un materiau
+
+import csv
+data = []
+with open('materials.csv') as csvfile:
+    material = csv.reader(csvfile, delimiter=';')
+    for row in material:
+        nb_col = len(row)
+        a.append(row)
+		
+
+nb_col = len(a[0])
+for col in range(1,nb_col):
+    mdb.models['Model-plein'].Material(name=a[col][0])
+    mdb.models['Model-plein'].materials[a[col][0]].Density(table=((float(a[col][1]), ), ))
+    mdb.models['Model-plein'].materials[a[col][0]].Elastic(table=((a[col][2], a[col][3]), ))

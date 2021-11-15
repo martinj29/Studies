@@ -1,0 +1,72 @@
+**
+**
+** GRANTA Material Name: Nitrile rubber (NBR, unreinforced)
+** Model Type: Linear, temperature-dependent, isotropic
+** Unit System: SI (Consistent)
+** Database Name: GRANTA EduPack 2020 - Level 3
+** Table Name: MaterialUniverse
+**
+** Data Summary
+** Density:  984.378 kg/m^3
+** Tensile modulus:  1944220 Pa
+** Poissons ratio:  0.487442
+** Tensile strength, yield:  5291500 Pa
+** Thermal conductivity:  0.139911 W/m.°C
+** Thermal expansion coefficient:  2.33474e-4 strain/°C
+** Specific heat capacity with temperature:  23 datapoints J/kg.°C
+** Electrical conductivity:  9.976e-11 Siemens/m
+** Dielectric constant:  5.13809
+**
+*MATERIAL, NAME = "LISOT Nitrile rubber NBR unrei"
+**
+*DENSITY
+984.378
+**
+*CONDUCTIVITY, TYPE = ISO
+0.139911
+**
+*EXPANSION, TYPE = ISO, ZERO = 296.15
+2.33474e-4
+**
+*SPECIFIC HEAT
+458.7, 82.95
+532.1, 92.95
+604.3, 102.95
+675.1, 112.95
+744.6, 122.95
+812.7, 132.95
+879.6, 142.95
+945.1, 152.95
+1009, 162.95
+1072, 172.95
+1134, 183
+1194, 193
+1361, 203
+1648, 213
+1413, 223
+1481, 233
+1547, 243
+1611, 253
+1672, 263
+1732, 273
+1789, 283
+1844, 293
+1872.32, 298.15
+**
+*DIELECTRIC, TYPE = ISO
+5.13809
+**
+*ELECTRICAL CONDUCTIVITY, TYPE = ISO
+9.976e-11
+**
+*ELASTIC, TYPE = ISOTROPIC
+1944220, 0.487442
+**
+*PLASTIC
+5291500, 0
+**
+**
+*NODE
+1, 0.0, 0.0, 0.0
+*ELEMENT, TYPE=CPE4, ELSET=EALL
+1, 1, 2, 5, 4
